@@ -137,11 +137,11 @@ class Contacts extends Component {
 		return this.phoneBook.list(this.state.contactsPerPage, this.state.page).map(function (object, i) {
 			return (
 				<tr>
-					<th scope="row">{i}</th>
+					<th scope="row">{object.key}</th>
 					<td>{object.name}</td>
 					<td>{object.phone}</td>
 					<td>{object.email}</td>
-					<td data-index={i} className="removeContact">
+					<td data-index={object.key} className="removeContact">
 						<button title={`Remove contact ${object.name}`} type="button" className="close"
 						        aria-label="Close">
 							<span aria-hidden="true">&times;</span>

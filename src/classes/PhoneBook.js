@@ -85,6 +85,11 @@ class PhoneBook {
 				}
 			];
 		}
+
+		this.contacts.forEach(function (contact, i) {
+			contact.key = i;
+		});
+
 	}
 
 	add(contactInfo) {
