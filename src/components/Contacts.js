@@ -65,24 +65,24 @@ class Contacts extends Component {
 							<div className="modal-body">
 								<form id="formAddContact" onSubmit={this.handlerAddForm}>
 									<div className="form-group row">
-										<label className="col-sm-2 col-form-label">Name</label>
-										<div className="col-sm-10">
-											<input required type="text" className="form-control" id="inputName"
+										<label className="col-sm-5 col-form-label text-left">Name</label>
+										<div className="col-sm-7">
+											<input maxLength="100" required type="text" className="form-control" id="inputName"
 											       placeholder="Name"/>
 										</div>
 									</div>
 
 									<div className="form-group row">
-										<label className="col-sm-2 col-form-label">Phone</label>
-										<div className="col-sm-10">
-											<input required type="text" className="form-control" id="inputPhone"
+										<label className="col-sm-5 col-form-label text-left">Phone (xx-xxx-xxxx)</label>
+										<div className="col-sm-7">
+											<input type="tel" maxLength="11" pattern="^\d{2}-\d{3}-\d{4}$" required className="form-control" id="inputPhone"
 											       placeholder="Phone"/>
 										</div>
 									</div>
 
 									<div className="form-group row">
-										<label className="col-sm-2 col-form-label">Email</label>
-										<div className="col-sm-10">
+										<label className="col-sm-5 col-form-label text-left">Email</label>
+										<div className="col-sm-7">
 											<input required type="email" className="form-control" id="inputEmail"
 											       placeholder="Email"/>
 										</div>
@@ -135,7 +135,7 @@ class Contacts extends Component {
 			$('#modalClose').trigger('click');
 			this.forceUpdate();
 		} else {
-			alert('Check input data');
+			alert('Error, check input data');
 		}
 
 
