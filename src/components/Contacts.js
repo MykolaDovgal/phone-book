@@ -14,7 +14,8 @@ class Contacts extends Component {
 		this.state = {
 			phoneBook: this.phoneBook,
 			page: 1,
-			contactsPerPage: 10
+			contactsPerPage: 10,
+			search: false
 		};
 	}
 
@@ -43,10 +44,19 @@ class Contacts extends Component {
 						<div className="col-12">
 							<br/>
 							<div className="row">
-								<div className="col-6">
+								<div className="col-4">
 									<h2 className="float-left">Contacts - {this.state.phoneBook.getTotal()} </h2>
 								</div>
-								<div className="col-6">
+
+								<div className="col-4">
+									<div className="form-group">
+										<input onInput={this.handlerSearch} type="search" className="form-control"
+										       id="inputSearch"
+										       placeholder="Search contact"/>
+									</div>
+								</div>
+
+								<div className="col-4">
 									<button type="button" data-toggle="modal" data-target="#modalAddContact"
 									        className="btn btn-primary float-right">Add contact
 									</button>
@@ -133,8 +143,14 @@ class Contacts extends Component {
 	}
 
 	getContactsTableData = () => {
+		let contacts = [];
+		if (this.state.search) {
+			contacts = this.phoneBook.search(this.state.search, this.state.contactsPerPage, this.state.page);
+		} else {
+			contacts = this.phoneBook.list(this.state.contactsPerPage, this.state.page);
+		}
 
-		return this.phoneBook.list(this.state.contactsPerPage, this.state.page).map(function (object, i) {
+		return contacts.map(function (object) {
 			return (
 				<tr>
 					<th scope="row">{object.key}</th>
@@ -228,6 +244,20 @@ class Contacts extends Component {
 					this.updateContact();
 				}
 			}
+		}
+	};
+
+	handlerSearch = (e) => {
+		const search = $(e.target).val();
+
+		if (search) {
+			this.setState({
+				search: search
+			})
+		} else {
+			this.setState({
+				search: false
+			})
 		}
 	};
 

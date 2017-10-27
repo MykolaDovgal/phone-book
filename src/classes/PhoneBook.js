@@ -14,81 +14,69 @@ class PhoneBook {
 
 			this.contacts = [
 				{
-					name: 'Test',
-					phone: 'Test',
-					email: 'Test'
+					name: 'Test test',
+					phone: '11-222-3333',
+					email: 'test@test.com'
 				},
 				{
-					name: 'Test',
-					phone: 'Test',
-					email: 'Test'
+					name: 'Test test',
+					phone: '11-222-3333',
+					email: 'test@test.com'
 				},
 				{
-					name: 'Test',
-					phone: 'Test',
-					email: 'Test'
+					name: 'Test test',
+					phone: '11-222-3333',
+					email: 'test@test.com'
 				},
 				{
-					name: 'Test',
-					phone: 'Test',
-					email: 'Test'
+					name: 'Test test',
+					phone: '11-222-3333',
+					email: 'test@test.com'
 				},
 				{
-					name: 'Test',
-					phone: 'Test',
-					email: 'Test'
+					name: 'Test test',
+					phone: '11-222-3333',
+					email: 'test@test.com'
 				},
 				{
-					name: 'Test',
-					phone: 'Test',
-					email: 'Test'
+					name: 'Test test',
+					phone: '11-222-3333',
+					email: 'test@test.com'
 				},
 				{
-					name: 'Test',
-					phone: 'Test',
-					email: 'Test'
+					name: 'Test test',
+					phone: '11-222-3333',
+					email: 'test@test.com'
 				},
 				{
-					name: 'Test',
-					phone: 'Test',
-					email: 'Test'
+					name: 'Test test',
+					phone: '11-222-3333',
+					email: 'test@test.com'
 				},
 				{
-					name: 'Test',
-					phone: 'Test',
-					email: 'Test'
+					name: 'Test test',
+					phone: '11-222-3333',
+					email: 'test@test.com'
 				},
 				{
-					name: 'Test',
-					phone: 'Test',
-					email: 'Test'
+					name: 'Test test',
+					phone: '11-222-3333',
+					email: 'test@test.com'
 				},
 				{
-					name: 'Test',
-					phone: 'Test',
-					email: 'Test'
+					name: 'Test test',
+					phone: '11-222-3333',
+					email: 'test@test.com'
 				},
 				{
-					name: 'Test',
-					phone: 'Test',
-					email: 'Test'
+					name: 'Test test',
+					phone: '11-222-3333',
+					email: 'test@test.com'
 				},
-				{
-					name: 'Test',
-					phone: 'Test',
-					email: 'Test'
-				},
-				{
-					name: 'Test',
-					phone: 'Test',
-					email: 'Test'
-				}
 			];
 		}
 
-		this.contacts.forEach(function (contact, i) {
-			contact.key = i;
-		});
+		this.addKey();
 
 	}
 
@@ -111,8 +99,19 @@ class PhoneBook {
 		}
 	}
 
-	search() {
+	search(search, contactsPerPage = 10, page = 1) {
+		let result = this.contacts.filter(function (contact) {
+			return contact.phone.search(new RegExp(search, 'i')) !== -1 || contact.name.search(new RegExp(search, 'i')) !== -1;
+		});
 
+		if (page < 0) {
+			page = 1;
+		}
+
+		const start = (page - 1) * contactsPerPage;
+		const end = (page) * contactsPerPage;
+
+		return result.slice(start, end);
 	}
 
 	getTotal() {
@@ -141,7 +140,15 @@ class PhoneBook {
 	}
 
 	updateStorage() {
+		this.addKey();
 		localStorage.setItem('contacts', JSON.stringify(this.contacts));
+
+	}
+
+	addKey() {
+		this.contacts.forEach(function (contact, i) {
+			contact.key = i;
+		});
 	}
 
 }
