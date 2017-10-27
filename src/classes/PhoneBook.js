@@ -131,6 +131,10 @@ class PhoneBook {
 		return this.contacts.slice(start, end);
 	}
 
+	getCountOfPage(contactsPerPage = 10) {
+		return Math.ceil(this.getTotal() / contactsPerPage);
+	}
+
 	updateStorage() {
 		localStorage.setItem('contacts', JSON.stringify(this.contacts));
 	}

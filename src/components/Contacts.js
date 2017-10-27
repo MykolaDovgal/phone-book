@@ -12,7 +12,9 @@ class Contacts extends Component {
 	constructor() {
 		super();
 		this.state = {
-			phoneBook: this.phoneBook
+			phoneBook: this.phoneBook,
+			page: 1,
+			contactsPerPage: 10
 		};
 	}
 
@@ -21,10 +23,18 @@ class Contacts extends Component {
 		$(document).on('click', '.removeContact', (e) => {
 			this.handlerForRemoveContact(e);
 		});
+
+		$(document).on('click', '#contactNavigation li', (e) => {
+			this.handlerForSetPage(e);
+		});
+
+
 	}
 
 	render() {
 		const data = this.getContactsTableData();
+		const pagination = this.getPagination();
+
 		return (
 			<div className="contacts_wrapper">
 				<div className="container">
@@ -62,6 +72,10 @@ class Contacts extends Component {
 							</table>
 						</div>
 					</div>
+
+					{pagination}
+
+
 				</div>
 
 				<div className="modal fade" id="modalAddContact" tabIndex="-1" role="dialog">
@@ -120,7 +134,7 @@ class Contacts extends Component {
 
 	getContactsTableData = () => {
 
-		return this.phoneBook.list().map(function (object, i) {
+		return this.phoneBook.list(this.state.contactsPerPage, this.state.page).map(function (object, i) {
 			return (
 				<tr>
 					<th scope="row">{i}</th>
@@ -136,6 +150,45 @@ class Contacts extends Component {
 				</tr>)
 		})
 
+	};
+
+	getPagination = () => {
+		let pages = [];
+		const _t = this;
+		for (let i = 0; i < this.phoneBook.getCountOfPage(this.state.contactsPerPage); i++) {
+			pages.push(i + 1);
+		}
+		return (
+			<div className="row">
+				<div className="col-12">
+					<nav aria-label="Page navigation">
+						<ul className="pagination" id="contactNavigation">
+							<li data-page={_t.state.page - 1} className="page-item">
+								<a className="page-link" aria-label="Previous">
+									<span aria-hidden="true">&laquo;</span>
+									<span className="sr-only">Previous</span>
+								</a>
+							</li>
+
+							{pages.map(function (i) {
+								let className = (i === _t.state.page) ? 'page-item active' : 'page-item';
+
+								return (
+									<li data-page={i} className={className}><a className="page-link " href="#">{i}</a>
+									</li>)
+							})}
+
+							<li data-page={_t.state.page + 1} className="page-item">
+								<a className="page-link" href="#" aria-label="Next">
+									<span aria-hidden="true">&raquo;</span>
+									<span className="sr-only">Next</span>
+								</a>
+							</li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		);
 	};
 
 	handlerAddForm = (e) => {
@@ -175,6 +228,22 @@ class Contacts extends Component {
 					this.updateContact();
 				}
 			}
+		}
+	};
+
+	handlerForSetPage = (e) => {
+		const element = $(e.target);
+
+		const li = element.parents('li');
+		let page = +li.data('page');
+
+		if (!isNaN(page)) {
+			if (page < 1) {
+				page = 1;
+			}
+			this.setState({
+				page: page
+			});
 		}
 	};
 
