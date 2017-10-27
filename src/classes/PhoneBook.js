@@ -1,3 +1,5 @@
+const MAX_CONTACTS = 10000;
+
 class PhoneBook {
 	contacts;
 
@@ -88,14 +90,20 @@ class PhoneBook {
 	add(contactInfo) {
 		if (contactInfo) {
 			if (contactInfo.hasOwnProperty('name') && contactInfo.hasOwnProperty('phone') && contactInfo.hasOwnProperty('email')) {
-				this.contacts.push(contactInfo);
-				this.updateStorage();
+
+				if (this.getTotal() < MAX_CONTACTS) {
+					this.contacts.push(contactInfo);
+					this.updateStorage();
+				}
 			}
 		}
 	}
 
 	remove(index) {
-
+		if (this.getContactByIndex(index)) {
+			this.contacts.splice(index, 1);
+			this.updateStorage();
+		}
 	}
 
 	search() {
@@ -104,6 +112,12 @@ class PhoneBook {
 
 	getTotal() {
 		return this.contacts.length;
+	}
+
+	getContactByIndex(index) {
+		if (this.contacts[index]) {
+			return this.contacts[index];
+		}
 	}
 
 	list(contactsPerPage = 10, page = 1) {

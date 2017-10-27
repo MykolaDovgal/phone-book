@@ -1,0 +1,8 @@
+.removeContact button {
+	cursor: pointer;
+}
+
+.removeContact .close {
+	float: none;
+	outline: none !important;
+}
