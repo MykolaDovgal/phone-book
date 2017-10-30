@@ -125,6 +125,7 @@ class PhoneBook {
 	}
 
 	list(contactsPerPage = 10, page = 1) {
+
 		if (page < 0) {
 			page = 1;
 		}
@@ -146,6 +147,11 @@ class PhoneBook {
 	}
 
 	addKey() {
+		this.contacts.sort((a, b) => {
+				return (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : ((b.name.toLowerCase() > a.name.toLowerCase()) ? -1 : 0);
+			}
+		);
+
 		this.contacts.forEach(function (contact, i) {
 			contact.key = i;
 		});
